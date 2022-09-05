@@ -45,7 +45,7 @@ class PostController extends Controller
 
         $new_post = new Post();
         $new_post ->fill($form_data);
-        $new_post->slug= Str::slug($new_post->title. '-');
+        $new_post->slug= $this->getFreeSlugFromTitle($new_post->title);
         $new_post->save();
 
         return redirect()->route('admin.posts.show', ['post'=>$new_post->id]);
@@ -99,5 +99,28 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+    protected function getFreeSlugFromTitle($title){
+        //Assegno lo slug
+        $slug_to_save = Str::slug($title, '-');
+        $slug_base = $slug_to_save;
+        // Verifico se questo slug esiste nel db
+        $existing_slug_post = Post::where('slug', '=', $slug_to_save)->first();
+
+        // Finchè non trovo uno slug libero, appendo un numero allo->first(); slug base base -1,-2, etc..
+
+        $counter = 1;
+
+        while($existing_slug_post){
+            // Provo a creare un nuovo slugo con $counter
+            $slug_to_save = $slug_base . '-' . $counter;
+
+            // Verifico se questo slug esiste nel db
+            $existing_slug_post = Post::where('slug', '=', $slug_to_save)->first();
+
+            $counter++;
+        }
+
+        return $slug_to_save;
     }
 }
