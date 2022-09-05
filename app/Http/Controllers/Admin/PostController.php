@@ -41,7 +41,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->getValidationRules);
+        $request->validate($this->getValidationRules());
 
         $form_data =$request->all();
 
