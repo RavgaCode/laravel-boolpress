@@ -77,7 +77,11 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $data=[
+            'post'=>$post
+        ];
+        return view('admin.posts.edit',$data);  
     }
 
     /**
@@ -89,7 +93,24 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Faccio la validazione dei dati richiamando il metodo con le specifiche impostate
+        $request->validate($this->getValidationRules());
+
+
+        $form_data = $request->all();
+
+        $post_to_update = Post::findOrFail($id);
+        // Aggiungo all'array associativo dei nuovi dati lo slug, ma solo nel caso il titolo sia cambiato
+        if($form_data['title'] !== $post_to_update->title){
+            $form_data['slug'] = $this->getFreeSlugFromTitle($form_data['title']);
+        } else{
+            $form_data['slug'] = $post_to_update->slug;
+        }
+
+
+        $post_to_update->update($form_data);
+
+        return redirect()->route('admin.posts.show', ['post'=> $post_to_update->id]);
     }
 
     /**
