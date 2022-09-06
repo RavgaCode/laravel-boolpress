@@ -14,11 +14,18 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         $posts= Post::all();
+
+        // Leggo l'url per leggere eventuali messaggi dell'url di post cancellati 
+        $request_info = $request->all();
+        $show_deleted_message = isset($request_info['deleted']) ? $request_info['deleted'] : null;
+
         $data=[
-            'posts'=> $posts
+            'posts'=> $posts,
+            'show_deleted_message' => $show_deleted_message
         ];
         return view('admin.posts.index', $data);
     }
@@ -124,7 +131,7 @@ class PostController extends Controller
         $post_to_delete = Post::findOrFail($id);
         $post_to_delete->delete();
 
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('admin.posts.index',['deleted'=>'yes']);
     }
     protected function getFreeSlugFromTitle($title){
         //Assegno lo slug

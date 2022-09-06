@@ -4,6 +4,15 @@
 @section('content')
 <h1>Test index dei posts</h1>
 
+{{-- Successful deleted post message --}}
+@if($show_deleted_message === 'yes')
+    <div class="alert alert-success" role='alert'>
+        Post cancellato correttamente
+    </div>
+@endif
+
+
+
 <div class="row">
     @foreach($posts as $post)
     {{-- Single col template --}}
