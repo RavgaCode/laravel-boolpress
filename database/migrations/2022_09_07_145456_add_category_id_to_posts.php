@@ -20,7 +20,7 @@ class AddCategoryIdToPosts extends Migration
 
             // Aggiungo la relazione
 
-             $table->foreign('category_id')->reference('id')->on('categories');
+             $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
