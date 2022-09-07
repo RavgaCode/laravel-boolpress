@@ -13,6 +13,9 @@
         <div>Creato oggi</div>
     @endif
     <div>Ultima modifica avvenuta il: {{$post->updated_at->format('d/m/Y')}}</div>
+
+
+    <div>Categoria: {{$post->category ? $post->category->name : 'Nessuna'}}</div>
     {{-- Inserisco il pulsante per modificare l'articolo --}}
     <div>
         <a href="{{route('admin.posts.edit', ['post'=>$post->id])}}" class="btn btn-primary">Modifica articolo</a>
