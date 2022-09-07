@@ -71,10 +71,14 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        
+
+        $now = Carbon::now();
+        $days_ago = $post->created_at-> diffInDays($now);
+
 
         $data=[
-            'post'=>$post
+            'post'=>$post,
+            'days_ago' => $days_ago,
         ];
         return view('admin.posts.show',$data);
     }

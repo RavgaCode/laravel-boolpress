@@ -6,6 +6,12 @@
     <p>{{$post->content}}</p>
     <div>Slug: {{$post->slug}}</div>
     <div>Creato il: {{$post->created_at->format('d/m/Y')}}</div>
+    {{-- If statement for created days ago message --}}
+    @if($days_ago > 0)
+        <div>Creato {{$days_ago}} giorn{{$days_ago > 1 ? 'i' : 'o'}} fa</div>   
+    @else
+        <div>Creato oggi</div>
+    @endif
     <div>Ultima modifica avvenuta il: {{$post->updated_at->format('d/m/Y')}}</div>
     {{-- Inserisco il pulsante per modificare l'articolo --}}
     <div>
