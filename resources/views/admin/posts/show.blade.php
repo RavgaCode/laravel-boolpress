@@ -16,6 +16,19 @@
 
 
     <div>Categoria: {{$post->category ? $post->category->name : 'Nessuna'}}</div>
+
+    {{-- Inserisco la logica per le tags --}}
+    <div>Tags: 
+        @if($post->tags->isNotEmpty()) 
+            @foreach ($post->tags as $tag)
+                {{$tag->name}}{{!$loop->last ? ',' : ''}}
+            @endforeach
+        @else
+            nessuno
+        @endif
+    
+    </div>
+
     {{-- Inserisco il pulsante per modificare l'articolo --}}
     <div>
         <a href="{{route('admin.posts.edit', ['post'=>$post->id])}}" class="btn btn-primary">Modifica articolo</a>

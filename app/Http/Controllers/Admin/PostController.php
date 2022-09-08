@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use App\Tag;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -40,9 +41,11 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
         $data =[
-            'categories'=> $categories
+            'categories'=> $categories,
+            'tags' => $tags,
         ];
         return view('admin.posts.create', $data);
     }
@@ -61,8 +64,16 @@ class PostController extends Controller
 
         $new_post = new Post();
         $new_post ->fill($form_data);
+
+
         $new_post->slug= $this->getFreeSlugFromTitle($new_post->title);
         $new_post->save();
+
+        // Una volta salvato il nuovo post, deve attaccare gli eventuali tag, SOLO se ci sono
+        if(isset($form_data['tags'])){
+            $new_post->tags()->sync($form_data['tags']);
+        }
+        
 
         return redirect()->route('admin.posts.show', ['post'=>$new_post->id]);
 
@@ -145,6 +156,8 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post_to_delete = Post::findOrFail($id);
+        // Svuoto la colonna delle tag, per permettere il delete
+        $post_to_delete->tags()->sync([]);
         $post_to_delete->delete();
 
         return redirect()->route('admin.posts.index',['deleted'=>'yes']);
