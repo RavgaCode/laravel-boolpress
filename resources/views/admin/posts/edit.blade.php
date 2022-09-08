@@ -28,11 +28,49 @@
         <label for="category_id"></label>
         <select class="form-select" id="category_id" name="category_id">
             <option value=''>Nessuna</option>
-
             @foreach($categories as $category)
             <option value="{{$category->id}}" {{old('category_id', $post->category_id) == $category->id ? 'selected' : ''}}>{{$category->name}}</option>
             @endforeach
           </select>
+    </div>
+
+    <div class="mb-3">
+        <h5>Tags</h5>
+
+
+    
+        @foreach($tags as $tag)
+            @if ($errors->any())
+            {{-- Se ci sono errori di validazione valuto la old() per capire dove mettere il check --}}
+            <div class="form-check">
+                <input class="form-check-input"
+                type="checkbox" 
+                value="{{$tag->id}}" 
+                id="tag-{{$tag->id}}" 
+                name='tags[]'
+                {{in_array($tag->id, old('tags', [])) ? 'checked' : ''}}
+                >
+                <label class="form-check-label" for="tag-{{$tag->id}}">
+                {{$tag->name}}
+                </label>
+            </div>
+
+            @else
+            {{-- Altrimenti, se non ci sono errori di validazione, sto caricando la pagina per la prima volta quindi valuto la collection dei tags --}}
+            <div class="form-check">
+                <input class="form-check-input"
+                type="checkbox" 
+                value="{{$tag->id}}" 
+                id="tag-{{$tag->id}}" 
+                name='tags[]'
+                {{$post->tags->contains($tag) ? 'checked' : ''}}
+                >
+                <label class="form-check-label" for="tag-{{$tag->id}}">
+                {{$tag->name}}
+                </label>
+            </div>
+            @endif
+        @endforeach
     </div>
     
     <div class="mb-3">
