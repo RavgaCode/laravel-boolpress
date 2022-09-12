@@ -1912,7 +1912,9 @@ __webpack_require__.r(__webpack_exports__);
   name: "Posts",
   data: function data() {
     return {
-      posts: []
+      posts: [],
+      currentPaginationPage: 1,
+      lastPaginationPage: null
     };
   },
   methods: {
@@ -1923,11 +1925,20 @@ __webpack_require__.r(__webpack_exports__);
 
       return text;
     },
-    getPosts: function getPosts() {
+    getPosts: function getPosts(pageNumber) {
       var _this = this;
 
-      axios.get("http://127.0.0.1:8000/api/posts").then(function (response) {
-        _this.posts = response.data.results;
+      axios.get("http://127.0.0.1:8000/api/posts?page=", {
+        params: {
+          page: pageNumber
+        }
+      }).then(function (response) {
+        // I miei post sono dentro results.data, perchè dal controller ho utilizzato il paginate
+        _this.posts = response.data.results.data; //ottengo i post
+
+        _this.currentPaginationPage = response.data.results.current_page; //ottengo la current page
+
+        _this.lastPaginationPage = response.data.results.last_page; //ottengo l'ultima pagina
       });
     }
   },
@@ -1992,13 +2003,65 @@ var render = function render() {
       staticClass: "card-title"
     }, [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c("p", {
       staticClass: "card-text"
-    }, [_vm._v("\n                            " + _vm._s(_vm.truncateText(post.content)) + "\n                        ")]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-primary",
-      attrs: {
-        href: "#"
+    }, [_vm._v("\n                            " + _vm._s(_vm.truncateText(post.content)) + "\n                        ")])])])]);
+  }), 0), _vm._v(" "), _c("nav", {
+    attrs: {
+      "aria-label": "Page navigation example"
+    }
+  }, [_c("ul", {
+    staticClass: "pagination"
+  }, [_c("li", {
+    staticClass: "page-item",
+    "class": {
+      disabled: _vm.currentPaginationPage == 1
+    }
+  }, [_c("a", {
+    staticClass: "page-link",
+    attrs: {
+      href: ""
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.getPosts(_vm.currentPaginationPage - 1);
       }
-    }, [_vm._v("Go somewhere")])])])]);
-  }), 0)])]);
+    }
+  }, [_vm._v("Previous")])]), _vm._v(" "), _vm._l(_vm.lastPaginationPage, function (pageNumber) {
+    return _c("li", {
+      key: pageNumber,
+      staticClass: "page-item",
+      "class": {
+        active: pageNumber == _vm.currentPaginationPage
+      }
+    }, [_c("a", {
+      staticClass: "page-link",
+      attrs: {
+        href: ""
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.getPosts(pageNumber);
+        }
+      }
+    }, [_vm._v(_vm._s(pageNumber))])]);
+  }), _vm._v(" "), _c("li", {
+    staticClass: "page-item",
+    "class": {
+      disabled: _vm.currentPaginationPage == _vm.lastPaginationPage
+    }
+  }, [_c("a", {
+    staticClass: "page-link",
+    attrs: {
+      href: ""
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.getPosts(_vm.currentPaginationPage + 1);
+      }
+    }
+  }, [_vm._v("Next")])])], 2)])])]);
 };
 
 var staticRenderFns = [];
