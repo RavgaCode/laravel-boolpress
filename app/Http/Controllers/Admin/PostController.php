@@ -69,7 +69,7 @@ class PostController extends Controller
         $new_post->slug= $this->getFreeSlugFromTitle($new_post->title);
         $new_post->save();
 
-        // Una volta salvato il nuovo post, deve attaccare gli eventuali tag, SOLO se ci sono
+        // Una volta salvato il nuovo post, deve attaccare gli eventuali tag, SOLO se ci sono. Non posso farlo prima, perchè finchè il post non è salvato nel db, non ha l'id da associare all'id del tag
         if(isset($form_data['tags'])){
             $new_post->tags()->sync($form_data['tags']);
         }
@@ -199,8 +199,8 @@ class PostController extends Controller
         return[
             'title' => 'required|max:255',
             'content' =>'required|max:60000',
-            'category_id' => 'nullable|exists:categories,id',
-            'tags'=>'nullable|exists:tags,id',
+            'category_id' => 'nullable|exists:categories,id',//contro la modifica hacker del value dall'html
+            'tags'=>'nullable|exists:tags,id',//contro la modifica hacker del value dall'html
         ];
     }
 }
