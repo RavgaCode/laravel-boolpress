@@ -2,19 +2,13 @@
     <section>
         <div class="container">
             <a href="/admin">Sezione Privata</a>
-            <h1>Ciao sono stampato con VueJs</h1>
-            <Posts />
+            <router-view></router-view>
         </div>
     </section>
 </template>
 
 <script>
-import Posts from "../components/Posts.vue";
-
 export default {
     name: "App",
-    components: {
-        Posts,
-    },
 };
 </script>
