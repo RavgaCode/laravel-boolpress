@@ -52,10 +52,16 @@
     @endforeach
 </div>
     
-
+    {{-- Contenuto del post --}}
     <div class="mb-3">
         <label for="content" class="form-label">Contenuto</label>
         <textarea class="form-control" id="content" name="content" rows="5">{{old('content')}}</textarea>
+    </div>
+
+    {{-- Immagine del post --}}
+    <div class="mb-3">
+        <label for="image" class="form-label">Immagine</label>
+        <input class="form-control" type="file" id="image" name="image">
     </div>
 
     <input type="submit" class="btn-primary" value="Salva post">
