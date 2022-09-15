@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <img src="{{ asset('/storage/'.$post->cover)}}" alt="" >
+    <img src="{{ asset('storage/'.$post->cover)}}" alt="{{$post->title}}" >
     <h1>{{$post->title}}</h1>
     <p>{{$post->content}}</p>
     <div>Slug: {{$post->slug}}</div>

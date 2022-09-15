@@ -144,6 +144,23 @@ class PostController extends Controller
         $form_data = $request->all();
 
         $post_to_update = Post::findOrFail($id);
+
+        // Gestione immagine:
+        // Se image esiste in $form_data
+        if(isset($form_data['image'])){
+            // Cancellare dal disco l'immagine vecchia
+            if($post_to_update->cover){
+                Storage::delete($post_to_update->cover);
+            }
+            // Faccio l'upload del nuovo file -> $img_path
+            $img_path = Storage::put('post-covers', $form_data['image']);
+            // popolo $form_data['cover'] con $img_path
+            $form_data['cover'] = $img_path;
+        }
+            
+
+        
+
         // Aggiungo all'array associativo dei nuovi dati lo slug, ma solo nel caso il titolo sia cambiato
         if($form_data['title'] !== $post_to_update->title){
             $form_data['slug'] = $this->getFreeSlugFromTitle($form_data['title']);
@@ -209,6 +226,7 @@ class PostController extends Controller
             'content' =>'required|max:60000',
             'category_id' => 'nullable|exists:categories,id',//contro la modifica hacker del value dall'html
             'tags'=>'nullable|exists:tags,id',//contro la modifica hacker del value dall'html
+            'image' => 'file|mimes:jpeg,png,jpg,gif,svg|max:1024|nullable', //nullable è solo per sicurezza, sebbene quando ho creato la migration per la colonna nel db, avessi dato la possibilità che l'immagine fosse nullable
         ];
     }
 }

@@ -14,7 +14,7 @@
 @endif
 
 {{-- Edit form --}}
-<form action="{{route('admin.posts.update', ['post'=> $post->id])}}" method="post">
+<form action="{{route('admin.posts.update', ['post'=> $post->id])}}" method="post" enctype="multipart/form-data">
     @csrf
     {{-- Inserisco il metodo put, che deve essere messo a parte perchè i browser leggono solo get e post --}}
     @method('PUT')
@@ -73,9 +73,24 @@
         @endforeach
     </div>
     
+    {{-- Contenuto del post --}}
     <div class="mb-3">
         <label for="content" class="form-label">Contenuto</label>
         <textarea class="form-control" id="content" name="content" rows="5">{{old('content', $post->content)}}</textarea>
+    </div>
+
+    {{-- Immagine del post --}}
+    <div class="mb-3">
+        <label for="image" class="form-label">Immagine</label>
+        <input class="form-control" type="file" id="image" name="image">
+
+        {{-- Preview immagine --}}
+        @if($post->cover)
+        <div>
+            <div>Immagine caricata attualmente:</div>
+            <img src="{{ asset('storage/'.$post->cover)}}" alt="{{$post->title}}" >
+        </div>
+        @endif
     </div>
 
     <input type="submit" class="btn-primary" value="Salva modifiche">
