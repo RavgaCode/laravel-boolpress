@@ -4,6 +4,8 @@
             <!-- metto l'if per prevenire un errore qualora leggesse null per lentezza di connessione. In questo modo il div compare solo quando la chiamata è avvenuta con successo -->
             <h2>{{ post.title }}</h2>
 
+            <img v-if="post.cover" :src="post.cover" :alt="post.title" />
+
             <div v-if="post.category">Categoria: {{ post.category.name }}</div>
             <p>{{ post.content }}</p>
             <div v-if="post.tags.length > 0">

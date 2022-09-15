@@ -1957,7 +1957,7 @@ __webpack_require__.r(__webpack_exports__);
     getPosts: function getPosts(pageNumber) {
       var _this = this;
 
-      axios.get("http://127.0.0.1:8000/api/posts?page=", {
+      axios.get("/api/posts?page=", {
         params: {
           page: pageNumber
         }
@@ -2179,7 +2179,12 @@ var render = function render() {
       }
     }, [_c("div", {
       staticClass: "card-body"
-    }, [_c("h5", {
+    }, [_c("img", {
+      attrs: {
+        src: post.cover,
+        alt: post.title
+      }
+    }), _vm._v(" "), _c("h5", {
       staticClass: "card-title"
     }, [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c("p", {
       staticClass: "card-text"
@@ -2386,7 +2391,12 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("section", [_vm.post ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _vm.post.category ? _c("div", [_vm._v("Categoria: " + _vm._s(_vm.post.category.name))]) : _vm._e(), _vm._v(" "), _c("p", [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _vm.post.tags.length > 0 ? _c("div", [_vm._v("\n            Tags:\n            "), _vm._l(_vm.post.tags, function (tag, index) {
+  return _c("section", [_vm.post ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _vm.post.cover ? _c("img", {
+    attrs: {
+      src: _vm.post.cover,
+      alt: _vm.post.title
+    }
+  }) : _vm._e(), _vm._v(" "), _vm.post.category ? _c("div", [_vm._v("Categoria: " + _vm._s(_vm.post.category.name))]) : _vm._e(), _vm._v(" "), _c("p", [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _vm.post.tags.length > 0 ? _c("div", [_vm._v("\n            Tags:\n            "), _vm._l(_vm.post.tags, function (tag, index) {
     return _c("span", {
       key: index
     }, [_vm._v(_vm._s(tag.name) + "\n                "), index != _vm.post.tags.length - 1 ? _c("span", [_vm._v(", ")]) : _vm._e()]);

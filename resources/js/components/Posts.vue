@@ -7,6 +7,7 @@
                 <div v-for="post in posts" :key="post.id" class="col">
                     <div class="card" style="width: 18rem">
                         <div class="card-body">
+                            <img :src="post.cover" :alt="post.title" />
                             <h5 class="card-title">{{ post.title }}</h5>
                             <p class="card-text">
                                 {{ truncateText(post.content) }}
@@ -93,7 +94,7 @@ export default {
         },
         getPosts(pageNumber) {
             axios
-                .get("http://127.0.0.1:8000/api/posts?page=", {
+                .get("/api/posts?page=", {
                     params: {
                         page: pageNumber,
                     },
