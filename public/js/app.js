@@ -2180,6 +2180,7 @@ var render = function render() {
     }, [_c("div", {
       staticClass: "card-body"
     }, [_c("img", {
+      staticClass: "card-img-top",
       attrs: {
         src: post.cover,
         alt: post.title
@@ -2392,6 +2393,7 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("section", [_vm.post ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _vm.post.cover ? _c("img", {
+    staticClass: "img-fluid",
     attrs: {
       src: _vm.post.cover,
       alt: _vm.post.title

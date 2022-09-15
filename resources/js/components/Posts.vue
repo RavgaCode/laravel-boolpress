@@ -7,7 +7,11 @@
                 <div v-for="post in posts" :key="post.id" class="col">
                     <div class="card" style="width: 18rem">
                         <div class="card-body">
-                            <img :src="post.cover" :alt="post.title" />
+                            <img
+                                class="card-img-top"
+                                :src="post.cover"
+                                :alt="post.title"
+                            />
                             <h5 class="card-title">{{ post.title }}</h5>
                             <p class="card-text">
                                 {{ truncateText(post.content) }}
