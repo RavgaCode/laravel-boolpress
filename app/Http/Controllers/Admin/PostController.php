@@ -190,6 +190,12 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post_to_delete = Post::findOrFail($id);
+
+        // Cancello l'eventuale immagine collegata al post
+        if($post_to_delete->cover){
+            Storage::delete($post_to_delete->cover);
+        }
+
         // Svuoto la colonna delle tag, per permettere il delete
         $post_to_delete->tags()->sync([]);
         $post_to_delete->delete();
