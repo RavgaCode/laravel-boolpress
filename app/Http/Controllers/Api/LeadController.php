@@ -18,7 +18,7 @@ class LeadController extends Controller
             // Valido i dati
             $validator = Validator::make($data,[
                 'name' => 'required|max:255',
-                'email'=> 'required|max:255',
+                'email'=> 'required|email|max:255',
                 'message'=> 'required|max:60000',
             ]);
             // Se la validazione fallisce
