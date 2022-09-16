@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary" />
+            <input type="submit" class="btn btn-primary" :disabled="sending" />
         </form>
     </section>
 </template>
@@ -80,10 +80,12 @@ export default {
             userMessage: "",
             success: false,
             errors: {},
+            sending: false,
         };
     },
     methods: {
         sendMessage() {
+            this.sending = true; //disabilito il tasto submit all'inizio della richiesta, per poi riabilitarlo alla fine, in modo da evitare spam e ddos
             axios
                 .post("/api/leads", {
                     //Siccome uso il metodo POST non serve creare l'oggetto params, ma inserisco i dati direttamente
@@ -99,9 +101,11 @@ export default {
                         this.userName = "";
                         this.userEmail = "";
                         this.userMessage = "";
+                        this.errors = {};
                     } else {
                         this.errors = response.data.errors;
                     }
+                    this.sending = false;
                 });
         },
     },

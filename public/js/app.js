@@ -2033,12 +2033,15 @@ __webpack_require__.r(__webpack_exports__);
       userEmail: "",
       userMessage: "",
       success: false,
-      errors: {}
+      errors: {},
+      sending: false
     };
   },
   methods: {
     sendMessage: function sendMessage() {
       var _this = this;
+
+      this.sending = true; //disabilito il tasto submit all'inizio della richiesta, per poi riabilitarlo alla fine, in modo da evitare spam e ddos
 
       axios.post("/api/leads", {
         //Siccome uso il metodo POST non serve creare l'oggetto params, ma inserisco i dati direttamente
@@ -2052,9 +2055,12 @@ __webpack_require__.r(__webpack_exports__);
           _this.userName = "";
           _this.userEmail = "";
           _this.userMessage = "";
+          _this.errors = {};
         } else {
           _this.errors = response.data.errors;
         }
+
+        _this.sending = false;
       });
     }
   }
@@ -2506,7 +2512,8 @@ var render = function render() {
   }), 0) : _vm._e()]), _vm._v(" "), _c("input", {
     staticClass: "btn btn-primary",
     attrs: {
-      type: "submit"
+      type: "submit",
+      disabled: _vm.sending
     }
   })])]);
 };
