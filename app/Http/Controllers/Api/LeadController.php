@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Lead;
 use Illuminate\Support\Facades\Validator;  //importo la classe Validator perchè essendo nel front-end devo fare una manually-creating-validator. Non posso usare la funzione di validazione usata nel backend, e js è troppo facilmente hackerabile
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactThankyouEmail;
+
 
 class LeadController extends Controller
 {
@@ -31,6 +34,9 @@ class LeadController extends Controller
         $new_lead = new Lead();
         $new_lead->fill($data);
         $new_lead->save();
+
+        // Invio la mail di ringraziamento
+        Mail::to($data['email'])->send(new ContactThankyouEmail());
 
         return response()->json([
             'success'=> true,
