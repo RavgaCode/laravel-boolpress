@@ -41,9 +41,9 @@ export default {
     name: "ContactPage",
     data() {
         return {
-            userName,
-            userEmail,
-            userMessage,
+            userName: "",
+            userEmail: "",
+            userMessage: "",
         };
     },
 };

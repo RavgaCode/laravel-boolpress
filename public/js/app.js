@@ -2029,9 +2029,9 @@ __webpack_require__.r(__webpack_exports__);
   name: "ContactPage",
   data: function data() {
     return {
-      userName: userName,
-      userEmail: userEmail,
-      userMessage: userMessage
+      userName: "",
+      userEmail: "",
+      userMessage: ""
     };
   }
 });
