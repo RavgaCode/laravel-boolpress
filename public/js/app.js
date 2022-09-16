@@ -2033,6 +2033,18 @@ __webpack_require__.r(__webpack_exports__);
       userEmail: "",
       userMessage: ""
     };
+  },
+  methods: {
+    sendMessage: function sendMessage() {
+      axios.post("/api/leads", {
+        //Siccome uso il metodo POST non serve creare l'oggetto params, ma inserisco i dati direttamente
+        name: this.userName,
+        email: this.userEmail,
+        message: this.userMessage
+      }).then(function (response) {
+        console.log(response);
+      });
+    }
   }
 });
 
@@ -2359,7 +2371,14 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("section", [_c("h2", [_vm._v("Contattaci")]), _vm._v(" "), _c("form", [_c("div", {
+  return _c("section", [_c("h2", [_vm._v("Contattaci")]), _vm._v(" "), _c("form", {
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.sendMessage();
+      }
+    }
+  }, [_c("div", {
     staticClass: "mb-3"
   }, [_c("label", {
     staticClass: "form-label",

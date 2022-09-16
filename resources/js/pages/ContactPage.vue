@@ -2,7 +2,7 @@
     <section>
         <h2>Contattaci</h2>
 
-        <form>
+        <form @submit.prevent="sendMessage()">
             <!-- //non mi serve la classe action nè il name nell'input, in quanto siamo in una single page application e la pagina non si deve refreshare -->
             <div class="mb-3">
                 <label for="user-name" class="form-label">Nome</label>
@@ -45,6 +45,20 @@ export default {
             userEmail: "",
             userMessage: "",
         };
+    },
+    methods: {
+        sendMessage() {
+            axios
+                .post("/api/leads", {
+                    //Siccome uso il metodo POST non serve creare l'oggetto params, ma inserisco i dati direttamente
+                    name: this.userName,
+                    email: this.userEmail,
+                    message: this.userMessage,
+                })
+                .then((response) => {
+                    console.log(response);
+                });
+        },
     },
 };
 </script>

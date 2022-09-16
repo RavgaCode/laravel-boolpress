@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/posts','Api\PostController@index');
 Route::get('/posts/{slug}', 'Api\PostController@show');
+
+Route::post('/leads', 'Api\LeadController@store'); //uso il metodo post e non get, perchè non voglio che i dati dell'utente compaiano nell'url
