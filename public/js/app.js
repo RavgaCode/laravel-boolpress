@@ -2031,18 +2031,30 @@ __webpack_require__.r(__webpack_exports__);
     return {
       userName: "",
       userEmail: "",
-      userMessage: ""
+      userMessage: "",
+      success: false,
+      errors: {}
     };
   },
   methods: {
     sendMessage: function sendMessage() {
+      var _this = this;
+
       axios.post("/api/leads", {
         //Siccome uso il metodo POST non serve creare l'oggetto params, ma inserisco i dati direttamente
         name: this.userName,
         email: this.userEmail,
         message: this.userMessage
       }).then(function (response) {
-        console.log(response);
+        if (response.data.success) {
+          _this.success = true; // Svuoto i campi
+
+          _this.userName = "";
+          _this.userEmail = "";
+          _this.userMessage = "";
+        } else {
+          _this.errors = response.data.errors;
+        }
       });
     }
   }
@@ -2371,7 +2383,12 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("section", [_c("h2", [_vm._v("Contattaci")]), _vm._v(" "), _c("form", {
+  return _c("section", [_c("h2", [_vm._v("Contattaci")]), _vm._v(" "), _vm.success ? _c("div", {
+    staticClass: "alert alert-success",
+    attrs: {
+      role: "alert"
+    }
+  }, [_vm._v("\n        Grazie per averci contattato!\n    ")]) : _vm._e(), _vm._v(" "), _c("form", {
     on: {
       submit: function submit($event) {
         $event.preventDefault();
@@ -2406,7 +2423,15 @@ var render = function render() {
         _vm.userName = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _vm.errors.name ? _c("div", _vm._l(_vm.errors.name, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "alert alert-danger",
+      attrs: {
+        role: "alert"
+      }
+    }, [_vm._v("\n                    " + _vm._s(error) + "\n                ")]);
+  }), 0) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "mb-3"
   }, [_c("label", {
     staticClass: "form-label",
@@ -2434,7 +2459,15 @@ var render = function render() {
         _vm.userEmail = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _vm.errors.email ? _c("div", _vm._l(_vm.errors.email, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "alert alert-danger",
+      attrs: {
+        role: "alert"
+      }
+    }, [_vm._v("\n                    " + _vm._s(error) + "\n                ")]);
+  }), 0) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "mb-3"
   }, [_c("label", {
     staticClass: "form-label",
@@ -2462,7 +2495,15 @@ var render = function render() {
         _vm.userMessage = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("input", {
+  }), _vm._v(" "), _vm.errors.message ? _c("div", _vm._l(_vm.errors.message, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "alert alert-danger",
+      attrs: {
+        role: "alert"
+      }
+    }, [_vm._v("\n                    " + _vm._s(error) + "\n                ")]);
+  }), 0) : _vm._e()]), _vm._v(" "), _c("input", {
     staticClass: "btn btn-primary",
     attrs: {
       type: "submit"
